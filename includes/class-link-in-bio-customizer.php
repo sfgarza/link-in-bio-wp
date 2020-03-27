@@ -53,49 +53,72 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 				'linkinbio_landing_page_section',
 				array(
 					'title'       => __( 'Landing Page Settings', 'linkinbio' ),
-					'description' => __( 'Insert code into the header or footer', 'linkinbio' ),
+					//'description' => __( 'Insert code into the header or footer', 'linkinbio' ),
 					'priority'    => 30,
 					'panel'       => 'linkinbio',
 				)
 			);
 
 			// Landing Page Image setting.
-			$wp_customize->add_setting( 'link-in-bio-page-image', array(
-				//'default'           => plugins_url( 'assets/images/user-circle-solid-108.png', WP_LinkInBio::get_plugin_base_name() ),//'sprintf( '%s/images/bg-%s.jpg', get_stylesheet_directory_uri(), $image )',
+			$wp_customize->add_setting( 'linkinbio_page_image', array(
 				'sanitize_callback' => 'absint',
 				'type'              => 'option',
 			) );
 
 			// Landing Page Title setting.
 			$wp_customize->add_setting(
-				'linkinbio_landing_page_title',
+				'linkinbio_landing_page_caption',
 				array(
 					'default'   => '',
 					'type'      => 'option',
 					'transport' => 'refresh',
+					'sanitize_callback' => 'wp_kses',
 				)
 			);
 
+			// Landing Page Title setting.
+			$wp_customize->add_setting(
+				'linkinbio_landing_page_image_link',
+					array(
+						'default'   => '',
+						'type'      => 'option',
+						'transport' => 'refresh',
+						'sanitize_callback' => 'esc_url_raw',
+				)
+			);
+ 
 			// Landing Page Image Control.
-			$wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'link-in-bio-page-image', array(
-				'label'    => __( 'Landing Page Image:', 'infinity-pro' ),
+			$wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'linkinbio_page_image', array(
+				'label'    => __( 'Landing Page Image', 'infinity-pro' ),
 				'section'  => 'linkinbio_landing_page_section',
-				'settings' => 'link-in-bio-page-image',
+				'settings' => 'linkinbio_page_image',
 				'width' => 150,
 				'height' => 150,
 				'flex_width' => false,
 				'flex_height' => false,
 			) ) );
 
+			// Landing Page Image Link.
+			$wp_customize->add_control(
+				'linkinbio_image_link',
+				array(
+					'label'       => __( 'Image Link', 'linkinbio' ),
+					'description' => __( 'Where you want to landing page image to link to. i.e https://example.com', 'linkinbio' ),
+					'type'        => 'text',
+					'section'     => 'linkinbio_landing_page_section',
+					'settings'    => 'linkinbio_landing_page_image_link',
+				)
+			);
+
 			// Landing Page Title Controls.
 			$wp_customize->add_control(
 				'linkinbio_page_title',
 				array(
-					'label'       => __( 'Page Title', 'linkinbio' ),
-					'description' => __( 'Landing Page Title', 'linkinbio' ),
+					'label'       => __( 'Page Caption', 'linkinbio' ),
+					'description' => __( 'A quick caption to be displayed under the landing page image.', 'linkinbio' ),
 					'type'        => 'text',
 					'section'     => 'linkinbio_landing_page_section',
-					'settings'    => 'linkinbio_landing_page_title',
+					'settings'    => 'linkinbio_landing_page_caption',
 				)
 			);
 			
