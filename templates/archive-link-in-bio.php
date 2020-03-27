@@ -12,7 +12,9 @@ get_header();
 <section>
     <div class="lib-header" > 
         <br>
-        <?php echo apply_filters( 'link_in_bio_archive_header_image', '<img class="bio-circle" src="' . $landing_page_image . '">' ); ?> 
+        <a href="<?php echo esc_url(  apply_filters( 'linkinbio_archive_header_link', $landing_image_link ) ); ?> ">
+            <?php echo apply_filters( 'linkinbio_archive_header_image', '<img class="bio-circle" src="' . $landing_page_image . '">' ); ?> 
+        </a>
         <h6> <?php echo $landing_image_caption ?><h6>
     </div>
 </section>
