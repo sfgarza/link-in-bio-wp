@@ -2,11 +2,16 @@
 /* Exit if accessed directly. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+$landing_page_image = wp_get_attachment_url( get_option( 'link-in-bio-page-image' ) );
+$landing_page_image = (false !== $landing_page_image ) ? $landing_page_image : plugins_url( 'assets/images/user-circle-solid-156.png', WP_LinkInBio::get_plugin_base_name() );
+
 get_header();
 ?>
 <section>
-    <div> 
-        <h1 style="text-align:center;"><?php echo apply_filters( 'link_in_bio_archive_header', get_bloginfo('name') ); ?></h1>
+    <div class="lib-header" > 
+        <br>
+        <?php echo apply_filters( 'link_in_bio_archive_header_image', '<img class="bio-circle" src="' . $landing_page_image . '">' ); ?> 
+        <h6> Links <h6>
     </div>
 </section>
 <section>
@@ -35,4 +40,5 @@ get_header();
 </section>
 
 <?php
-get_footer();
+//get_footer();
+wp_footer(  );

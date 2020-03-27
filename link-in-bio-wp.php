@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 include_once( 'includes.php' );
 
 /** Instantiate the plugin. */
-$template_plugin = WP_LinkInBio::get_instance();
+WP_LinkInBio::get_instance();
 
 /**
  * WP_LinkInBio class.
@@ -72,6 +72,36 @@ class WP_LinkInBio {
 		$this->init();
 	}
 
+	public static function get_plugin_base_name(){
+
+		if ( ! isset( static::$plugin_base_name ) ) {
+			static::$plugin_base_name = plugin_basename( __FILE__ );
+		}
+
+		return static::$plugin_base_name;
+
+	}
+
+	public static function get_plugin_base_dir(){
+
+		if ( ! isset( static::$plugin_base_dir ) ) {
+			static::$plugin_base_dir = plugin_dir_path( __FILE__ );
+		}
+
+		return static::$plugin_base_dir;
+
+	}
+
+	public static function get_plugin_file(){
+
+		if ( ! isset( static::$plugin_file ) ) {
+			static::$plugin_file = __FILE__;
+		}
+
+		return static::$plugin_file;
+
+	}
+
 	/**
 	 * Singleton instantiator.
 	 *
@@ -99,18 +129,13 @@ class WP_LinkInBio {
 		register_deactivation_hook( static::$plugin_file, array( $this, 'deactivate' ) );
 
 		/** Enqueue css and js files */
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 
 		/* Add link to settings in plugins admin page */
 		add_filter( 'plugin_action_links_' . static::$plugin_base_name , array( $this, 'plugin_links' ) );
 
-		/* TODO: Change class name to be unique to your plugin */
-		new MyPluginSettings();
-
 		add_action( 'init', array( $this, 'create_post_type' ) );
 		add_action( 'init', array( $this, 'register_post_meta' ) );
-		//add_filter( 'post_type_link', array( $this, 'links' ), 1, 3);
 		add_filter( 'template_include', array($this, 'include_template') );
 
 		// No need to define metaboxes/save post function unless it's accessible.
@@ -130,24 +155,24 @@ class WP_LinkInBio {
 	public function create_post_type() {
 		$args = array(
 			'labels'                => array(
-			'name'                  => __( 'Link In Bio', 'linkinbio' ),
-			'singular_name'         => __( 'Link In Bio', 'linkinbio' ),
+			'name'                  => __( 'Links', 'linkinbio' ),
+			'singular_name'         => __( 'Link', 'linkinbio' ),
 			'add_new'               => __( 'Add New', 'linkinbio' ),
-			'add_new_item'          => __( 'Add New Link In Bio', 'linkinbio' ),
+			'add_new_item'          => __( 'Add New Link', 'linkinbio' ),
 			'edit'                  => __( 'Edit', 'linkinbio' ),
-			'edit_item'             => __( 'Edit Link In Bio', 'linkinbio' ),
-			'new_item'              => __( 'New Link In Bio', 'linkinbio' ),
-			'view'                  => __( 'View Link In Bio', 'linkinbio' ),
-			'view_item'             => __( 'View Link In Bio', 'linkinbio' ),
-			'search_items'          => __( 'Search Link In Bio', 'linkinbio' ),
-			'not_found'             => __( 'No Link In Bio found', 'linkinbio' ),
-			'not_found_in_trash'    => __( 'No Link In Bio found in Trash', 'linkinbio' ),
-			'filter_items_list'     => __( 'Filter Link In Bio', 'linkinbio' ),
-			'items_list_navigation' => __( 'Link In Bio navigation', 'linkinbio' ),
-			'items_list'            => __( 'Link In Bio list', 'linkinbio' ),
+			'edit_item'             => __( 'Edit Link', 'linkinbio' ),
+			'new_item'              => __( 'New Link', 'linkinbio' ),
+			'view'                  => __( 'View Link', 'linkinbio' ),
+			'view_item'             => __( 'View Link', 'linkinbio' ),
+			'search_items'          => __( 'Search Link', 'linkinbio' ),
+			'not_found'             => __( 'No Link found', 'linkinbio' ),
+			'not_found_in_trash'    => __( 'No Link found in Trash', 'linkinbio' ),
+			'filter_items_list'     => __( 'Filter Link', 'linkinbio' ),
+			'items_list_navigation' => __( 'Link navigation', 'linkinbio' ),
+			'items_list'            => __( 'Link list', 'linkinbio' ),
 			),
 			'supports'              => array( 'title', 'thumbnail' ), // Removes content field. To remove title, set entire thing to be false rather than an array.
-			'label'                 => __( 'Link In Bio', 'linkinbio' ),
+			'label'                 => __( 'Links', 'linkinbio' ),
 			'description'           => __( 'A Link', 'linkinbio' ),
 			'show_ui'               => true,
 			'show_in_menu'          => true,
@@ -189,7 +214,7 @@ class WP_LinkInBio {
 	 * @return void
 	 */
 	public function register_meta_boxes() {
-		add_meta_box( 'link-in-bio_general', __( 'Information', 'link-in-bio' ), array( $this, 'general_metabox' ), 'link-in-bio', 'advanced', 'high' );
+		add_meta_box( 'link-in-bio_general', __( 'Information', 'linkinbio' ), array( $this, 'general_metabox' ), 'link-in-bio', 'advanced', 'high' );
 	}
 
 	/**
@@ -263,20 +288,18 @@ class WP_LinkInBio {
 	}
 
 	/**
-	 * Enqueue Scripts and styles for Backend.
-	 */
-	public function admin_scripts() {
-		// Any JS or CSS needed to display on admin pages should be enqueued here.
-	}
-
-	/**
 	 * Enqueue Scripts and styles for Frontend.
 	 */
 	public function frontend_scripts() {
-		wp_register_style( 'linkinbio-css', plugins_url( 'assets/css/main.css', static::$plugin_file ) );
-		wp_enqueue_style( 'linkinbio-css' );
+		global $wp;
 
-		wp_enqueue_script( 'linkinbio-js',plugins_url( 'assets/js/plugin.min.js', static::$plugin_file ), array( 'jquery' ), null, true );
+		// Only load Style and Scripts where needed where needed
+		if( 'link-in-bio' === get_post_type() ){
+			wp_register_style( 'linkinbio-css', plugins_url( 'assets/css/link-in-bio.css', static::$plugin_file ) );
+			wp_enqueue_style( 'linkinbio-css' );
+	
+			wp_enqueue_script( 'linkinbio-js',plugins_url( 'assets/js/plugin.min.js', static::$plugin_file ), array( 'jquery' ), null, true );
+		}
 	}
 
 	/**
@@ -300,7 +323,7 @@ class WP_LinkInBio {
 	 * @return [Array]        : Array of links on plugin page.
 	 */
 	public function plugin_links( $links ) {
-		$settings_link = '<a href="options-general.php?page=linkinbio">Settings</a>';
+		$settings_link = '<a href="customize.php?autofocus%5Bpanel%5D=linkinbio">Settings</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
 	}

@@ -9,6 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* Include Files Here */
-include_once( 'includes/settings.php' );
+include_once( 'includes/class-link-in-bio-customizer.php' );
 
 ?>
