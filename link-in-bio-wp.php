@@ -8,7 +8,6 @@
 /*
 -------------------------------------------------------------------------------
 	Plugin Name: Link In Bio WP
-	Plugin URI:  https://profiles.wordpress.org/sgarza/
 	Description: Add a link in bio page for use on social media pages.
 	Text Domain: linkinbio
 	Author: sfgarza
