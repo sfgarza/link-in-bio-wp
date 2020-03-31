@@ -25,7 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* Include dependencies */
 include_once( 'includes.php' );
-
 /** Instantiate the plugin. */
 WP_LinkInBio::get_instance();
 
@@ -128,6 +127,8 @@ class WP_LinkInBio {
 		register_activation_hook( static::$plugin_file, array( $this, 'activate' ) );
 		register_deactivation_hook( static::$plugin_file, array( $this, 'deactivate' ) );
 
+		add_image_size( 'image_link', 250, 250, true );
+
 		/** Enqueue css and js files */
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 
@@ -137,7 +138,7 @@ class WP_LinkInBio {
 		add_action( 'init', array( $this, 'create_post_type' ) );
 		add_action( 'init', array( $this, 'register_post_meta' ) );
 		add_filter( 'template_include', array($this, 'include_template') );
-
+		add_filter( 'pre_get_posts', array( $this, 'posts_per_page' ) );
 		// No need to define metaboxes/save post function unless it's accessible.
 		if ( is_admin() ) {
 			//add_filter( 'manage_edit-link-in-bio_columns', array( $this, 'columns_filter' ) );
@@ -183,7 +184,7 @@ class WP_LinkInBio {
 			'public'                => true,
 			'query_var'             => true,
 			'show_in_rest'          => true,
-			'rest_base'             => 'pr',
+			'rest_base'             => 'links',
 			'rest_controller_class' => 'WP_REST_Posts_Controller',
 			'menu_position'         => 5,
 			'menu_icon'             => 'dashicons-admin-links',
@@ -225,9 +226,9 @@ class WP_LinkInBio {
 	public function general_metabox() {
 		global $post;
 
-		wp_nonce_field( 'link_in_bio_metabox_save', 'link_in_bio_metabox_nonce' );
+		wp_nonce_field( 'linkinbio_metabox_save', 'linkinbio_metabox_nonce' );
 
-		echo '<p><label>Redirect Link:</label><br /><input type="text" name="link_in_bio_redirect_link" value="' . esc_attr( get_post_meta( $post->ID, "_linkinbio_redirect_link", true ) ) .'"/></p>';
+		echo '<p><label>Redirect Link:</label><br /><input type="text" name="linkinbio_redirect_link" value="' . esc_attr( get_post_meta( $post->ID, "_linkinbio_redirect_link", true ) ) .'"/></p>';
 	}
 
 	/**
@@ -242,7 +243,7 @@ class WP_LinkInBio {
 	public function metabox_save( $post_id, $post ) {
 
 		// Check nonce.
-		if ( ! isset( $_POST['link_in_bio_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['link_in_bio_metabox_nonce'], 'link_in_bio_metabox_save' ) ) {
+		if ( ! isset( $_POST['linkinbio_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['linkinbio_metabox_nonce'], 'linkinbio_metabox_save' ) ) {
 			return $post_id;
 		}
 
@@ -262,7 +263,7 @@ class WP_LinkInBio {
 		}
 		
 		// Validate and sanitize redirect url.
-		$redirect_link = wp_http_validate_url( esc_url_raw( trim( $_POST['link_in_bio_redirect_link'] ) ) );
+		$redirect_link = wp_http_validate_url( esc_url_raw( trim( $_POST['linkinbio_redirect_link'] ) ) );
 		$redirect_link = (false !== $redirect_link ) ? $redirect_link : '';
 		
 		// Perform save.
@@ -313,6 +314,7 @@ class WP_LinkInBio {
 	 * Method that executes on plugin de-activation.
 	 */
 	public function deactivate() {
+		//remove_image_size( 'image_link' );
 		add_action( 'plugins_loaded', 'flush_rewrite_rules' );
 	}
 
@@ -326,5 +328,15 @@ class WP_LinkInBio {
 		$settings_link = '<a href="customize.php?autofocus%5Bpanel%5D=linkinbio">Settings</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
+	}
+
+	function posts_per_page( $query ) {
+		if ( is_admin() || ! $query->is_main_query() ) {
+		   return;
+		}
+	
+		if ( is_post_type_archive( 'link-in-bio' ) ) {
+		   $query->set( 'posts_per_page', 6 );
+		}
 	}
 }

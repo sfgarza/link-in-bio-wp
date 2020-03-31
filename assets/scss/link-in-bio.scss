@@ -1,13 +1,77 @@
 .bio-circle {
     border-radius: 50%;
-    height: 80;
+    height: 80px;
     width: 80px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-
 }
 
-.lib-header {
+.libio-header{
     text-align: center;
+    padding-top:20px;
+    //padding-bottom:20px;
+    height: 150px;
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+    border-bottom: 1px solid #ababab
+}
+
+.libio-page-container{
+    text-align: center;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.libio-container {
+    max-width: 960px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap
+}
+
+.libio-container .libio-photo-wrapper {
+    flex: 0 0 auto;
+    width: 33.3%;
+    position: relative;
+    padding: 2px;
+    box-sizing: border-box
+}
+
+.libio-container .libio-photo-wrapper:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%
+}
+
+.libio-container .libio-photo-wrapper .libio-photo {
+    position: relative;
+    display: block
+}
+
+.libio-container .libio-photo-wrapper .libio-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: absolute;
+    vertical-align: baseline;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0
+}
+
+@media (max-width:960px) {
+    .libio-container .libio-photo-wrapper {
+        width: 49.8%
+    }
+    .libio-container .libio-photo-wrapper .overlay {
+        display: none
+    }
+    .ls-tip {
+        background: #f5f5f5
+    }
 }
