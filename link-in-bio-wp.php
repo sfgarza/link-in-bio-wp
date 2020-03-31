@@ -141,8 +141,8 @@ class WP_LinkInBio {
 		add_filter( 'pre_get_posts', array( $this, 'posts_per_page' ) );
 		// No need to define metaboxes/save post function unless it's accessible.
 		if ( is_admin() ) {
-			//add_filter( 'manage_edit-link-in-bio_columns', array( $this, 'columns_filter' ) );
-			//add_action( 'manage_link-in-bio_posts_custom_column', array( $this, 'columns_data' ) );
+			add_filter( 'manage_edit-link-in-bio_columns', array( $this, 'columns_filter' ) );
+			add_action( 'manage_link-in-bio_posts_custom_column', array( $this, 'columns_data' ) );
 			add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
 			add_action( 'save_post_link-in-bio', array( $this, 'metabox_save' ), 1, 2 );
 		}
@@ -338,6 +338,48 @@ class WP_LinkInBio {
 	
 		if ( is_post_type_archive( 'link-in-bio' ) ) {
 		   $query->set( 'posts_per_page', 6 );
+		}
+	}
+
+	/**
+	 * Filter column headers.
+	 *
+	 * @param  array $columns The original columns.
+	 * @return array          The modified columns.
+	 */
+	public function columns_filter( $columns ) {
+		$columns = array(
+			'cb'       => $columns['cb'],
+			'image'    => __('Image', 'linkinbio'),
+			'redirect' => __('Redirect Link', 'linkinbio'),
+			'title'    => $columns['title'],
+			'date'     => $columns['date'],
+		);
+		return $columns;
+	}
+
+	/**
+	 * Add data to the columns.
+	 *
+	 * @param  string $column The identifier for the column.
+	 * @return void
+	 */
+	public function columns_data( $column ) {
+		global $post;
+
+		if ( 'image' === $column ) {
+			echo get_the_post_thumbnail( $post->ID, array(80, 80) );
+		}
+		if ( 'redirect' === $column ) {
+			$ksesargs = array( 
+				'span'=> array('class'=>array()),
+				'a' => array(
+					'href' => array(),
+					'target' => array(),
+				),
+			);
+			$redirect = get_post_meta( $post->ID, "_linkinbio_redirect_link", true );
+			echo esc_url(  $redirect ) . wp_kses('<a href="'.$redirect .'" target="_blank"> <span class="dashicons dashicons-admin-links"></span></a>', $ksesargs );
 		}
 	}
 }
