@@ -1,5 +1,5 @@
 === Link In Bio WP ===
-Contributors: sgarza, imforza
+Contributors: sgarza
 Tags: social media, social share, social links, social profile, instagram, instagram link, bio link, landing page
 Requires at least: 5.0
 Tested up to: 5.3.2
@@ -16,6 +16,9 @@ Instagram posts are a great place to get your content out to the world, but you 
 == Installation ==
 1. Install from the WP Admin dashboard under the Plugins menu.
 2. Activate the plugin from the Plugins page on the WP Admin page.
+
+== Getting Started ==
+After activating the plugin, you can begin populating the page with content by adding new "Links" by clicking "Links -> Add New" in the WordPress Admin sidebar. You can further customize the landing page by going to "Link In Bio Settings" in the WordPress customizer.
 
 === Features ===
 * Create a landing page that mirrors your instagram feed in order to link to outside content.
