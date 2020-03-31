@@ -8,8 +8,8 @@
 /*
 -------------------------------------------------------------------------------
 	Plugin Name: Link In Bio WP
-	Plugin URI: 
-	Description: Add a link in bio page for use on social media pages
+	Plugin URI:  https://profiles.wordpress.org/sgarza/
+	Description: Add a link in bio page for use on social media pages.
 	Text Domain: linkinbio
 	Author: sfgarza
 	Author URI: https://profiles.wordpress.org/sgarza/
@@ -308,15 +308,16 @@ class WP_LinkInBio {
 	 * Method that executes on plugin activation.
 	 */
 	public function activate() {
-		add_action( 'plugins_loaded', 'flush_rewrite_rules' );
+		$this->create_post_type();
+		flush_rewrite_rules();
 	}
 
 	/**
 	 * Method that executes on plugin de-activation.
 	 */
 	public function deactivate() {
-		//remove_image_size( 'image_link' );
-		add_action( 'plugins_loaded', 'flush_rewrite_rules' );
+		unregister_post_type('link-in-bio');
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -326,6 +327,8 @@ class WP_LinkInBio {
 	 * @return [Array]        : Array of links on plugin page.
 	 */
 	public function plugin_links( $links ) {
+		$archive_link  = '<a href="' . site_url('/links') . '"> View Landing Page</a>';
+		array_unshift( $links, $archive_link );
 		$settings_link = '<a href="customize.php?autofocus%5Bpanel%5D=linkinbio">Settings</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
