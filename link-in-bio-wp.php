@@ -12,8 +12,8 @@
 	Description: Add a link in bio page for use on social media pages
 	Text Domain: linkinbio
 	Author: sfgarza
-	Author URI: https://github.com/sfgarza
-	Contributors: 
+	Author URI: https://profiles.wordpress.org/sgarza/
+	Contributors: imforza
 	License: GPLv3 or later
 	License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 	Version: 1.0.0
@@ -299,7 +299,8 @@ class WP_LinkInBio {
 			wp_register_style( 'linkinbio-css', plugins_url( 'assets/css/link-in-bio.css', static::$plugin_file ) );
 			wp_enqueue_style( 'linkinbio-css' );
 	
-			wp_enqueue_script( 'linkinbio-js',plugins_url( 'assets/js/plugin.min.js', static::$plugin_file ), array( 'jquery' ), null, true );
+			wp_enqueue_script( 'linkinbio-infinite-scroll',plugins_url( 'assets/js/infinite-scroll.min.js', static::$plugin_file ), null, null, true );
+			wp_localize_script( 'linkinbio-infinite-scroll', 'linkinbio_scroll', array( "url" => site_url('/wp-json/wp/v2/links') ) );
 		}
 	}
 
