@@ -6,7 +6,7 @@
  */
 
  // Exit if accessed directly.
- defined( 'ABSPATH' ) || exit;
+ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 
