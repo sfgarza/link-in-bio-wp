@@ -26,6 +26,8 @@ Instagram posts are a great place to get your content out to the world, but you 
 == Getting Started ==
 After activating the plugin, you can begin populating the page with content by adding new "Links" by clicking "Links -> Add New" in the WordPress Admin sidebar. You can further customize the landing page by going to "Link In Bio Settings" in the WordPress customizer.
 
+The landing page can be found at https://yourdomain.com/links/. Anchor links on the page are also available at /links/#media & /links/#posts
+
 === Features ===
 * Create a landing page that mirrors your instagram feed in order to link to outside content.
 * Mobile first & Responsive layout.
