@@ -2,7 +2,7 @@
 Contributors: sgarza
 Tags: social media, social share, social links, social profile, instagram, instagram link, bio link, landing page
 Requires at least: 5.0
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 7.0.3
 Stable tag: trunk
 License: GPL v3
@@ -12,6 +12,12 @@ Mirror your instagram feed to easily add links in every post.
 
 == Description ==
 Instagram posts are a great place to get your content out to the world, but you can't click links within an individual post. Link In Bio WP Creates a simple landing page that lets you mirror your instagram feed so that you can easily link to outside content. 
+
+== Screenshots ==
+1. Customizer settings.
+2. Full width landing page.
+3. WordPress admin archive page.
+4. Add New Link page.
 
 == Installation ==
 1. Install from the WP Admin dashboard under the Plugins menu.
