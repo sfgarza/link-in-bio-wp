@@ -86,6 +86,17 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 						'sanitize_callback' => 'esc_url_raw',
 				)
 			);
+
+			// Landing Page custom slug setting.
+			$wp_customize->add_setting(
+				'linkinbio_landing_page_custom_slug',
+					array(
+						'default'   => '',
+						'type'      => 'option',
+						'transport' => 'refresh',
+						'sanitize_callback' => 'sanitize_title_with_dashes',
+				)
+			);
  
 			// Landing Page Image Control.
 			$wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'linkinbio_page_image', array(
@@ -107,6 +118,9 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 					'type'        => 'text',
 					'section'     => 'linkinbio_landing_page_section',
 					'settings'    => 'linkinbio_landing_page_image_link',
+					'input_attrs' => array(
+						'placeholder' => __( 'https://example.com', 'linkinbio' ),
+					)
 				)
 			);
 
@@ -119,6 +133,24 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 					'type'        => 'text',
 					'section'     => 'linkinbio_landing_page_section',
 					'settings'    => 'linkinbio_landing_page_caption',
+					'input_attrs' => array(
+						'placeholder' => __( 'Tap photo for details', 'linkinbio' ),
+					)
+				)
+			);
+
+			// Landing Page Custom Slug Controls.
+			$wp_customize->add_control(
+				'linkinbio_page_custom_slug',
+				array(
+					'label'       => __( 'Custom Slug', 'linkinbio' ),
+					'description' => sprintf( __( 'The default landing page url is %s. You can customize this url to anything you like.', 'linkinbio'), site_url('/links/') ),
+					'type'        => 'text',
+					'section'     => 'linkinbio_landing_page_section',
+					'settings'    => 'linkinbio_landing_page_custom_slug',
+					'input_attrs' => array(
+						'placeholder' => __( 'i.e. instagram', 'linkinbio' ),
+					)
 				)
 			);
 			

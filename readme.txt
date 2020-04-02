@@ -30,12 +30,16 @@ The landing page can be found at https://yourdomain.com/links/. Anchor links on 
 
 === Features ===
 * Create a landing page that mirrors your instagram feed in order to link to outside content.
+* Customize landing page link.
 * Mobile first & Responsive layout.
 * Infinite Scrolling built in.
 * Easily customize landing page within the customizer.
 * Built in hooks let developers customize the plugin even further.
 
 == Changelog ==
+
+-1.1.0
+-- New customizer option lets you set a custom slug for the landing page.
 
 - 1.0.0
 -- First Release

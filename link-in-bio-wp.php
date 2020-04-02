@@ -137,8 +137,10 @@ class WP_LinkInBio {
 
 		add_action( 'init', array( $this, 'create_post_type' ) );
 		add_action( 'init', array( $this, 'register_post_meta' ) );
+		add_action( 'init', array( $this, 'add_rewrites' ) );
 		add_filter( 'template_include', array($this, 'include_template') );
 		add_filter( 'pre_get_posts', array( $this, 'posts_per_page' ) );
+		
 		// No need to define metaboxes/save post function unless it's accessible.
 		if ( is_admin() ) {
 			add_filter( 'manage_edit-link-in-bio_columns', array( $this, 'columns_filter' ) );
@@ -146,6 +148,8 @@ class WP_LinkInBio {
 			add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
 			add_action( 'save_post_link-in-bio', array( $this, 'metabox_save' ), 1, 2 );
 		}
+
+		add_action('update_option_linkinbio_landing_page_custom_slug', array( $this, 'update_custom_slug'));
 	}
 
 	/**
@@ -207,6 +211,21 @@ class WP_LinkInBio {
 				return current_user_can( 'edit_posts' );
 			}
 		) );
+	}
+
+	public function add_rewrites(){
+		$slug = trim( get_option('linkinbio_landing_page_custom_slug') );
+		if( ! empty( $slug ) ){
+			add_rewrite_rule( sanitize_title_with_dashes( $slug ) . '?', 'index.php?post_type=link-in-bio', 'top' );
+			
+			if( true === (bool)get_option( 'linkinbio_flush_rewrites' )){
+				flush_rewrite_rules();
+			}
+		}
+	}
+
+	public function update_custom_slug(){
+		update_option('linkinbio_flush_rewrites', true );
 	}
 
 	/**
