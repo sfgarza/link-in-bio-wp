@@ -31,7 +31,7 @@ get_header()
                 the_post();?> 
                 <div class="libio-photo-wrapper">
                     <a class="libio-photo" href="<?php echo apply_filters( 'linkinbio_post_link', get_the_permalink( ) ) ; ?>">
-                    <?php echo apply_filters( 'linkinbio_post_thumbnail',  get_the_post_thumbnail( null, array( 250, 250 ) ) ); ?> 
+                    <?php echo apply_filters( 'linkinbio_post_thumbnail',  get_the_post_thumbnail( null, 'image_link' ) ); ?> 
                     </a> 
                 </div>
                 <?php
