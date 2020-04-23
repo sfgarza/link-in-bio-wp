@@ -37,8 +37,11 @@ The landing page can be found at https://yourdomain.com/links/. Anchor links on 
 * Built in hooks let developers customize the plugin even further.
 
 == Changelog ==
+- 1.2.0
+-- Fixes thumbnail display bug that happens when using the Jetpack Photo CDN.
+-- Added option to disable plugin CSS in order to allow developers to add their own styling.
 
--1.1.0
+- 1.1.0
 -- New customizer option lets you set a custom slug for the landing page.
 
 - 1.0.0
