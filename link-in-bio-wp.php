@@ -313,10 +313,14 @@ class WP_LinkInBio {
 	public function frontend_scripts() {
 		global $wp;
 
-		// Only load Style and Scripts where needed where needed
+		// Only load Style and Scripts where needed.
 		if( 'link-in-bio' === get_post_type() ){
-			wp_register_style( 'linkinbio-css', plugins_url( 'assets/css/link-in-bio.css', static::$plugin_file ) );
-			wp_enqueue_style( 'linkinbio-css' );
+			
+			// Do not enqueue CSS if disable CSS option is selected in customizer. 
+			if( 1 !== (int) get_option( 'linkinbio_landing_page_disable_css' ) ){
+				wp_register_style( 'linkinbio-css', plugins_url( 'assets/css/link-in-bio.css', static::$plugin_file ) );
+				wp_enqueue_style( 'linkinbio-css' );
+			}
 	
 			wp_enqueue_script( 'linkinbio-infinite-scroll',plugins_url( 'assets/js/infinite-scroll.min.js', static::$plugin_file ), null, null, true );
 			wp_localize_script( 'linkinbio-infinite-scroll', 'linkinbio_scroll', array( "url" => site_url('/wp-json/wp/v2/links') ) );

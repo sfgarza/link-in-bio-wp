@@ -97,6 +97,17 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 						'sanitize_callback' => 'sanitize_title_with_dashes',
 				)
 			);
+
+			// Landing Page custom slug setting.
+			$wp_customize->add_setting(
+				'linkinbio_landing_page_disable_css',
+					array(
+						'default'   => 0,
+						'type'      => 'option',
+						'transport' => 'refresh',
+						'sanitize_callback' => 'wp_kses',
+				)
+			);
  
 			// Landing Page Image Control.
 			$wp_customize->add_control( new WP_Customize_Cropped_Image_Control( $wp_customize, 'linkinbio_page_image', array(
@@ -151,6 +162,18 @@ if ( ! class_exists( 'LinkInBio_Customizer' ) ) {
 					'input_attrs' => array(
 						'placeholder' => __( 'i.e. instagram', 'linkinbio' ),
 					)
+				)
+			);
+
+			// Landing Page Custom Slug Controls.
+			$wp_customize->add_control(
+				'linkinbio_page_disable_css',
+				array(
+					'label'       => __( 'Disable Default CSS?', 'linkinbio' ),
+					'description' => __( 'Disable the default plugin CSS in order to add your own custom CSS for the landing page.', 'linkinbio'),
+					'type'        => 'checkbox',
+					'section'     => 'linkinbio_landing_page_section',
+					'settings'    => 'linkinbio_landing_page_disable_css',
 				)
 			);
 			
